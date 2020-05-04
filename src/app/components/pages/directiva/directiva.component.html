@@ -1,0 +1,13 @@
+<button type="button" (click)="setEnable()" class="btn btn-primary my-3"><!-- En el caso de pulsar el boton se deshabilita la vista de los cursos -->
+  {{enable == true? "Ocultar": "Mostrar"}} <!-- Si habilitar esta en true muestra la opcion ocultar y viceversa -->
+</button>
+<div class="card">
+  <div class="card-header">
+    Listado de Cursos
+  </div>
+  <ul *ngIf="enable" class="list-group">
+    <li *ngFor="let curso of listaCurso" class="list-group-item"> <!--   Similar a un forEach   -->
+      {{curso}}
+    </li>
+  </ul>
+</div>
