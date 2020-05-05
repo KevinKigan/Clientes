@@ -6,18 +6,22 @@ import { HeaderComponent } from './components/share/header/header.component';
 import { FooterComponent } from './components/share/footer/footer.component';
 import { DirectivaComponent } from './components/pages/directiva/directiva.component';
 import {CommonModule} from '@angular/common';
+import { ClientesComponent } from './components/pages/clientes/clientes.component';
+import {ClienteService} from './components/services/cliente.service';
+import {AppRoutingModule} from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    DirectivaComponent
+    DirectivaComponent,
+    ClientesComponent
   ],
   imports: [
-    BrowserModule, CommonModule
+    BrowserModule, CommonModule, AppRoutingModule
   ],
-  providers: [],
+  providers: [ClienteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
