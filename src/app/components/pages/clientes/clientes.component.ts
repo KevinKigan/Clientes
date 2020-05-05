@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Cliente} from './cliente';
-import { CLIENTES } from '../../../../assets/data/clientes.json';
+import {ClienteService} from '../../services/cliente.service';
+
 
 @Component({
   selector: 'app-clientes',
@@ -11,10 +12,13 @@ export class ClientesComponent implements OnInit {
 
   clientes: Cliente[];
 
-  constructor() { }
+  constructor(private clienteService: ClienteService) {
+  }
 
-  ngOnInit(): void {
-    this.clientes = CLIENTES;
+  ngOnInit() {
+    this.clienteService.getClientes().subscribe(    // El subscribe esta atento a si surge cualquier tipo de cambio en el observable (en este caso "clientes")
+      clientes => this.clientes = clientes
+    );
   }
 
 }

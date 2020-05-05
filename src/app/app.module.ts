@@ -7,6 +7,7 @@ import { FooterComponent } from './components/share/footer/footer.component';
 import { DirectivaComponent } from './components/pages/directiva/directiva.component';
 import {CommonModule} from '@angular/common';
 import { ClientesComponent } from './components/pages/clientes/clientes.component';
+import {ClienteService} from './components/services/cliente.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { ClientesComponent } from './components/pages/clientes/clientes.componen
   imports: [
     BrowserModule, CommonModule
   ],
-  providers: [],
+  providers: [ClienteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
