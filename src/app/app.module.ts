@@ -10,6 +10,8 @@ import { ClientesComponent } from './components/pages/clientes/clientes.componen
 import {ClienteService} from './components/services/cliente.service';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
+import { FormComponent } from './components/pages/form/form.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,10 +19,15 @@ import {HttpClientModule} from '@angular/common/http';
     HeaderComponent,
     FooterComponent,
     DirectivaComponent,
-    ClientesComponent
+    ClientesComponent,
+    FormComponent
   ],
   imports: [
-    BrowserModule, CommonModule, AppRoutingModule, HttpClientModule
+    BrowserModule,
+    CommonModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [ClienteService],
   bootstrap: [AppComponent]
