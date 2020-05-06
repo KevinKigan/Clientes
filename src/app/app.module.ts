@@ -9,6 +9,7 @@ import {CommonModule} from '@angular/common';
 import { ClientesComponent } from './components/pages/clientes/clientes.component';
 import {ClienteService} from './components/services/cliente.service';
 import {AppRoutingModule} from './app-routing.module';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import {AppRoutingModule} from './app-routing.module';
     ClientesComponent
   ],
   imports: [
-    BrowserModule, CommonModule, AppRoutingModule
+    BrowserModule, CommonModule, AppRoutingModule, HttpClientModule
   ],
   providers: [ClienteService],
   bootstrap: [AppComponent]
