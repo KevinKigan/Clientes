@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Cliente} from './cliente';
 import {ClienteService} from '../../services/cliente.service';
+import {logger} from 'codelyzer/util/logger';
+import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/output_ast';
+import swal from "sweetalert2";
 
 
 @Component({
@@ -13,6 +16,7 @@ export class ClientesComponent implements OnInit {
   clientes: Cliente[];
 
   constructor(private clienteService: ClienteService) {
+
   }
 
   ngOnInit() {
@@ -21,4 +25,28 @@ export class ClientesComponent implements OnInit {
     );
   }
 
+
+  public delete(cliente: Cliente): void {
+    swal.fire({
+      title: `¿Seguro que quiere borrar al cliente ${cliente.clientName} ${cliente.lastName}?`,
+      text: '¡No se podrá revertir los cambios!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar cliente!'
+    }).then((result) => {
+      if (result.value) {
+        this.clienteService.delete(cliente.id).subscribe(response =>
+          this.clientes = this.clientes.filter(cli => cli!=cliente));
+        swal.fire(
+          'Eliminado!',
+          `Se ha borrado al cliente ${cliente.clientName} ${cliente.lastName}`,
+          'success'
+        )
+      }
+    });
+
+
+  }
 }

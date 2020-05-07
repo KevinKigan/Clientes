@@ -9,6 +9,9 @@ import {CommonModule} from '@angular/common';
 import { ClientesComponent } from './components/pages/clientes/clientes.component';
 import {ClienteService} from './components/services/cliente.service';
 import {AppRoutingModule} from './app-routing.module';
+import {HttpClientModule} from '@angular/common/http';
+import { FormComponent } from './components/pages/form/form.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,10 +19,15 @@ import {AppRoutingModule} from './app-routing.module';
     HeaderComponent,
     FooterComponent,
     DirectivaComponent,
-    ClientesComponent
+    ClientesComponent,
+    FormComponent
   ],
   imports: [
-    BrowserModule, CommonModule, AppRoutingModule
+    BrowserModule,
+    CommonModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [ClienteService],
   bootstrap: [AppComponent]
