@@ -1,7 +1,13 @@
-<div class="card bg-dark text-white">
-  <div class="card-header">{{title}}</div>
-  <div class="card-body">
-    <form (ngSubmit)="create()">
+<div class="pad">
+  <div class="card bg-dark text-white">
+    <div class="card-header bg-dark" *ngIf="!cliente.id else elseBlockTitle">Crear</div>
+    <ng-template #elseBlockTitle>
+      <div class="card-header">{{titleEdit}}</div>
+    </ng-template>
+
+
+  <div class="card-body bg-secondary text-white">
+    <form>
       <div class="form-group row">
         <label for="clientName" class="col-form-label col-sm-2">Nombre</label>
         <div class="col-sm-6">
@@ -25,10 +31,15 @@
 
       <div class="form-group row">
         <div class="col-sm-6">
-          <button class="btn btn-primary" role="button">Crear</button>
+          <button class="btn btn-primary" role="button" (click)="create()" *ngIf="!cliente.id else elseBlock">Crear
+          </button>
+          <ng-template #elseBlock>
+            <button class="btn btn-primary" role="button" (click)="update()">Editar</button>
+          </ng-template>
         </div>
       </div>
 
     </form>
   </div>
+</div>
 </div>
