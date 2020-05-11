@@ -6,6 +6,9 @@ export const environment = {
   production: false
 };
 
+// url de los clientes en SpringBoot BackEnd
+export const urlEndPoint = "http://localhost:8080/api/clientes";
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
