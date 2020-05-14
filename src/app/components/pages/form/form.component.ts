@@ -24,18 +24,18 @@ export class FormComponent implements OnInit {
 
   public create(): void {
     this.clienteService.create(this.cliente).subscribe(
-      cliente => {
+      json => {
         this.router.navigate(['/clientes']); // Redirige al listado de clientes
-        swal.fire('Cliente Guardado', `Cliente ${cliente.clientName} creado con éxito`, 'success'); // Muestra un popup
+        swal.fire('Cliente Guardado',  `${json.mensaje} ${json.cliente.clientName}`, 'success'); // Muestra un popup
       }
     );
   }
 
   public update(): void {
     this.clienteService.update(this.cliente).subscribe(
-      cliente => {
+      json => {
         this.router.navigate(['/clientes']); // Redirige al listado de clientes
-        swal.fire('Cliente Actualizado', `Cliente ${cliente.clientName} actualizado con éxito`, 'success'); // Muestra un popup
+        swal.fire('Cliente Actualizado', `${json.mensaje} ${json.cliente.clientName}`, 'success'); // Muestra un popup
       }
     );
   }
