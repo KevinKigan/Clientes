@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Cliente} from '../pages/clientes/cliente';
-import {Observable, of} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {urlEndPoint} from '../../../environments/environment';
+import {catchError} from 'rxjs/operators';
+import swal from 'sweetalert2';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,7 @@ export class ClienteService {
 
   private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   /**
    * Metodo para obtener todos los clientes
@@ -26,8 +29,14 @@ export class ClienteService {
    *
    * @param cliente Cliente a crear
    */
-  create(cliente: Cliente):Observable<Cliente>{
-    return this.http.post<Cliente>(urlEndPoint, cliente, {headers: this.httpHeaders});
+  create(cliente: Cliente):Observable<any>{
+    return this.http.post<any>(urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        console.error(e.error.mensaje);
+        swal.fire(e.error.mensaje, e.error.error, 'error');
+        return throwError(e);
+      })
+    );
   }
 
   /**
@@ -35,8 +44,15 @@ export class ClienteService {
    *
    * @param id ID del cliente a obtener
    */
-  getCliente(id): Observable<Cliente>{
-    return this.http.get<Cliente>(`${urlEndPoint}/${id}`)
+  getCliente(id): Observable<any>{
+    return this.http.get<Cliente>(`${urlEndPoint}/${id}`).pipe(
+      catchError(e => {
+        this.router.navigate(['/clientes']);
+        console.error(e.error.mensaje);
+        swal.fire('Error al obtener cliente', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
   }
 
 
@@ -45,9 +61,15 @@ export class ClienteService {
    *
    * @param cliente Cliente a actualizar
    */
-  update(cliente: Cliente): Observable<Cliente>{
-    return this.http.put<Cliente>(`${urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders});
-  }
+  update(cliente: Cliente): Observable<any>{
+    return this.http.put<any>(`${urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        console.error(e.error.mensaje);
+        swal.fire('Error al editar el cliente', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
+  }// Intercepta el observable en busca de fallos
 
   /**
    * Metodo para borrar un cliente
@@ -55,6 +77,12 @@ export class ClienteService {
    * @param id ID del cliente a borrar
    */
   delete(id: number): Observable<Cliente>{
-    return this.http.delete<Cliente>(`${urlEndPoint}/${id}`,{headers: this.httpHeaders});
+    return this.http.delete<Cliente>(`${urlEndPoint}/${id}`,{headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        console.error(e.error.mensaje);
+        swal.fire('Error al eliminar cliente', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
   }
 }
