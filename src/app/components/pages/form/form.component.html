@@ -1,3 +1,8 @@
+<ul *ngIf="errors?.length > 0" class="alert alert-danger">
+  <li *ngFor="let err of errors">
+    {{err}}
+  </li>
+</ul>
 <div class="pad">
   <div class="card bg-dark text-white">
     <div class="card-header bg-dark" *ngIf="!cliente.id else elseBlockTitle">Crear</div>
@@ -11,7 +16,7 @@
       <div class="form-group row">
         <label for="clientName" class="col-form-label col-sm-2">Nombre</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" [(ngModel)]="cliente.clientName" name="clientName" required minlength="3" #name="ngModel">
+          <input type="text" class="form-control" [(ngModel)]="cliente.clientName" name="clientName" #name="ngModel"> <!-- required minlength="3" -->
           <!-- dirty valida mentras se va escribiendo y touched cuando te sales del foco-->
           <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
             <div *ngIf="name.errors.required">
@@ -27,7 +32,7 @@
       <div class="form-group row">
         <label for="lastName" class="col-form-label col-sm-2">Apellidos</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" [(ngModel)]="cliente.lastName" name="lastName" required #lastname="ngModel">
+          <input type="text" class="form-control" [(ngModel)]="cliente.lastName" name="lastName" #lastname="ngModel"> <!-- required -->
           <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="alert alert-danger">
             <div *ngIf="lastname.errors.required">
               Introduce el apellido del cliente
@@ -39,7 +44,7 @@
       <div class="form-group row">
         <label for="email" class="col-form-label col-sm-2">Email</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" [(ngModel)]="cliente.email" name="email" required email  #email="ngModel">
+          <input type="text" class="form-control" [(ngModel)]="cliente.email" name="email" #email="ngModel"> <!-- required email -->
           <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
             <div *ngIf="email.errors.required">
               Introduce el email del cliente
