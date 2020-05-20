@@ -12,6 +12,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import { FormComponent } from './components/pages/form/form.component';
 import {FormsModule} from '@angular/forms';
+import { PaginatorComponent } from './components/pages/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {FormsModule} from '@angular/forms';
     FooterComponent,
     DirectivaComponent,
     ClientesComponent,
-    FormComponent
+    FormComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,

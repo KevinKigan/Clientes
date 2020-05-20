@@ -3,9 +3,10 @@ import {Cliente} from '../pages/clientes/cliente';
 import {Observable, throwError} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {urlEndPoint} from '../../../environments/environment';
-import {catchError} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import swal from 'sweetalert2';
 import {Router} from '@angular/router';
+import {formatDate} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +20,20 @@ export class ClienteService {
   /**
    * Metodo para obtener todos los clientes
    */
-  getClientes(): Observable<Cliente[]>{ // Observable hace que el metodo sea asincrono
+  getClientes(page: number): Observable<any>{ // Observable hace que el metodo sea asincrono
     // return of(CLIENTES);                // Convierte el listado clientes en un observable y por consiguiente en un stream
-    return this.http.get<Cliente[]>(urlEndPoint); // Hace una peticion get a la url para retornar un json que transforma en una lista de clientes
+    return this.http.get<Cliente[]>(urlEndPoint+'/page/'+page).pipe( // Hace una peticion get a la url para retornar un json que transforma en una lista de clientes
+      map((response: any) =>{
+
+         (response.content as Cliente[]).map(cliente => {
+            cliente.clientName = cliente.clientName.toUpperCase();  // Ponemos todos los nombres de los clientes en mayuscula
+            cliente.lastName = cliente.lastName.toUpperCase();
+            cliente.createAt = formatDate(cliente.createAt, 'dd/MM/yyyy','en-US');
+            return cliente;
+          }
+        );
+         return response;
+      }));
   }
 
   /**
