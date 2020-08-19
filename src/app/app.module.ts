@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/share/header/header.component';
@@ -12,6 +12,11 @@ import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import { FormComponent } from './components/pages/form/form.component';
 import {FormsModule} from '@angular/forms';
+import { PaginatorComponent } from './components/pages/paginator/paginator.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MAT_MOMENT_DATE_FORMATS, MatMomentDateModule} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -20,16 +25,20 @@ import {FormsModule} from '@angular/forms';
     FooterComponent,
     DirectivaComponent,
     ClientesComponent,
-    FormComponent
+    FormComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatMomentDateModule
   ],
-  providers: [ClienteService],
+  providers: [ClienteService, { provide: MAT_DATE_LOCALE, useValue: 'es' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
