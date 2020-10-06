@@ -27,7 +27,7 @@ export class FormComponent implements OnInit {
     this.clienteService.create(this.cliente).subscribe(
       json => {
         this.router.navigate(['/clientes']); // Redirige al listado de clientes
-        swal.fire('Cliente Guardado', `${json.mensaje} ${json.cliente.clientName}`, 'success'); // Muestra un popup
+        swal.fire('Cliente Guardado',  `${json.mensaje} ${json.cliente.clientName}`, 'success'); // Muestra un popup
       },
       err => {
         this.errors = err.error.errors as string[];
@@ -52,6 +52,7 @@ export class FormComponent implements OnInit {
   }
 
 
+
   public loadClient(): void {
     this.activatedRoute.params.subscribe(params => {
       let id = params['id']; // Let se usa para declaracion de variables al igual que la palabra reservada "var"
@@ -60,4 +61,6 @@ export class FormComponent implements OnInit {
       }
     });
   }
+
+
 }

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Cliente} from './cliente';
 import {ClienteService} from '../../services/cliente.service';
+import {logger} from 'codelyzer/util/logger';
+import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/output_ast';
 import swal from 'sweetalert2';
 import {ActivatedRoute} from '@angular/router';
-import {ModalService} from '../../services/modal.service';
 
 
 @Component({
@@ -15,9 +16,8 @@ export class ClientesComponent implements OnInit {
 
   clientes: Cliente[];
   paginator: any;
-  clientSelected: Cliente;
 
-  constructor(private clienteService: ClienteService, private activatedRoute: ActivatedRoute, private modalService: ModalService) {
+  constructor(private clienteService: ClienteService, private activatedRoute: ActivatedRoute) {
 
   }
 
@@ -57,12 +57,7 @@ export class ClientesComponent implements OnInit {
         );
       }
     });
+
+
   }
-
-
-  public showModal(client: Cliente){
-    this.clientSelected = client;
-    this.modalService.openModal();
-  }
-
 }
