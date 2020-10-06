@@ -1,3 +1,4 @@
+<app-profile *ngIf="clientSelected" [client]="clientSelected"></app-profile>
 <div class="padding">
   <div class="card border-primary mb-3 ">
     <div class="card-header">Clientes</div>
@@ -23,7 +24,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let cliente of clientes">
-          <td>{{cliente.id}}</td>
+          <td><button type="button" (click)="showModal(cliente)" class="btn btn-success">{{cliente.id}}</button></td>
           <td>{{cliente.clientName}}</td>
           <td>{{cliente.lastName}}</td>
           <td>{{cliente.email}}</td>

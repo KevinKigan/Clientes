@@ -8,6 +8,7 @@ export const environment = {
 
 // url de los clientes en SpringBoot BackEnd
 export const urlEndPoint = "http://localhost:8080/api/clientes";
+export const urlEndPointImgs = "http://localhost:8080/api/uploads/img";
 
 /*
  * For easier debugging in development mode, you can import the following file

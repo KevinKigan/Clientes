@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {DirectivaComponent} from './components/pages/directiva/directiva.component';
 import {ClientesComponent} from './components/pages/clientes/clientes.component';
 import {FormComponent} from './components/pages/form/form.component';
+import {ProfileComponent} from './components/pages/profile/profile.component';
 
 
 const app_routes: Routes = [
@@ -12,6 +13,7 @@ const app_routes: Routes = [
   {path: 'clientes/page/:page', component: ClientesComponent},
   {path: 'clientes/form', component: FormComponent},
   {path: 'clientes/form/:id', component: FormComponent}
+  // {path: 'clientes/upload/:id', component: ProfileComponent}
 ];
 
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Cliente} from '../pages/clientes/cliente';
 import {Observable, throwError} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpHeaders, HttpRequest} from '@angular/common/http';
 import {urlEndPoint} from '../../../environments/environment';
 import {catchError, map} from 'rxjs/operators';
 import swal from 'sweetalert2';
@@ -102,5 +102,31 @@ export class ClienteService {
         return throwError(e);
       })
     );
+  }
+
+  /**
+   * Metodo para subir la foto de perfil de un cliente
+   *
+   * @param file
+   * @param id
+   */
+  public uploadPhoto(file: File, id): Observable<HttpEvent<{}>>{
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("id", id);
+    const req = new HttpRequest('POST', `${urlEndPoint}/upload`, formData, {
+      reportProgress: true
+    });
+    console.log(req);
+    return this.http.request(req)
+    //   .pipe(
+    //   map((response: any) => response.cliente as Cliente),
+    // catchError(e => {
+    //   console.error(e.error.error);
+    //   swal.fire('Error subir imagen del cliente', e.error.error, 'error');
+    //   return throwError(e);
+    // })
+    //)
+      ;
   }
 }
