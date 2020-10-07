@@ -3,7 +3,9 @@ import {Cliente} from './cliente';
 import {ClienteService} from '../../services/cliente.service';
 import {logger} from 'codelyzer/util/logger';
 import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/output_ast';
-import swal from "sweetalert2";
+import swal from 'sweetalert2';
+import {ActivatedRoute} from '@angular/router';
+import {ModalService} from '../../services/modal.service';
 
 
 @Component({
@@ -14,15 +16,34 @@ import swal from "sweetalert2";
 export class ClientesComponent implements OnInit {
 
   clientes: Cliente[];
+  paginator: any;
+  selectedClient: Cliente;
 
-  constructor(private clienteService: ClienteService) {
+  constructor(private clienteService: ClienteService,private modalService: ModalService, private activatedRoute: ActivatedRoute) {
 
   }
 
   ngOnInit() {
-    this.clienteService.getClientes().subscribe(    // El subscribe esta atento a si surge cualquier tipo de cambio en el observable (en este caso "clientes")
-      clientes => this.clientes = clientes
-    );
+    this.activatedRoute.paramMap.subscribe(params => {
+      let page = +params.get('page'); // El operador suma transforma el string en un number
+      if (!page) {
+        page = 0;
+      }
+      this.clienteService.getClientes(page).subscribe(    // El subscribe esta atento a si surge cualquier tipo de cambio en el observable (en este caso "clientes")
+        response => {
+          this.clientes = response.content as Cliente[];
+          this.paginator = response;
+        }
+      );
+    });
+    this.modalService.notifyUpload.subscribe(cliente => {
+      this.clientes = this.clientes.map(originalClient => {
+        if (cliente.id == originalClient.id) {
+          originalClient.photo = cliente.photo;
+        }
+        return originalClient;
+      });
+    });
   }
 
 
@@ -38,15 +59,17 @@ export class ClientesComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.clienteService.delete(cliente.id).subscribe(response =>
-          this.clientes = this.clientes.filter(cli => cli!=cliente));
+          this.clientes = this.clientes.filter(cli => cli != cliente));
         swal.fire(
           'Eliminado!',
           `Se ha borrado al cliente ${cliente.clientName} ${cliente.lastName}`,
           'success'
-        )
+        );
       }
     });
-
-
+  }
+  openModal(cliente: Cliente) {
+    this.selectedClient = cliente;
+    this.modalService.openModal();
   }
 }
