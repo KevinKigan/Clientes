@@ -1,3 +1,11 @@
 .padding{
   padding-top: 20px;
 }
+img {
+  max-width:64px;
+  max-height:64px;
+  margin: auto;
+}
+.centerPhoto{
+  margin: auto;
+}

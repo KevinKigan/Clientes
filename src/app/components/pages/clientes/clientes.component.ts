@@ -5,6 +5,7 @@ import {logger} from 'codelyzer/util/logger';
 import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/output_ast';
 import swal from 'sweetalert2';
 import {ActivatedRoute} from '@angular/router';
+import {ModalService} from '../../services/modal.service';
 
 
 @Component({
@@ -16,8 +17,9 @@ export class ClientesComponent implements OnInit {
 
   clientes: Cliente[];
   paginator: any;
+  selectedClient: Cliente;
 
-  constructor(private clienteService: ClienteService, private activatedRoute: ActivatedRoute) {
+  constructor(private clienteService: ClienteService,private modalService: ModalService, private activatedRoute: ActivatedRoute) {
 
   }
 
@@ -33,6 +35,14 @@ export class ClientesComponent implements OnInit {
           this.paginator = response;
         }
       );
+    });
+    this.modalService.notifyUpload.subscribe(cliente => {
+      this.clientes = this.clientes.map(originalClient => {
+        if (cliente.id == originalClient.id) {
+          originalClient.photo = cliente.photo;
+        }
+        return originalClient;
+      });
     });
   }
 
@@ -57,7 +67,9 @@ export class ClientesComponent implements OnInit {
         );
       }
     });
-
-
+  }
+  openModal(cliente: Cliente) {
+    this.selectedClient = cliente;
+    this.modalService.openModal();
   }
 }
