@@ -8,6 +8,7 @@ import swal from 'sweetalert2';
 import {Router} from '@angular/router';
 
 import {formatDate} from '@angular/common';
+import {Region} from '../pages/clientes/region';
 @Injectable({
 providedIn: 'root'
 })
@@ -18,6 +19,29 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
 
 
   constructor(private http: HttpClient, private router: Router) { }
+
+  /**
+   * Metodo para obtener todos las regiones
+   */
+  getRegiones(page: number): Observable<Region[]>{ // Observable hace que el metodo sea asincrono
+    return this.http.get<Region[]>(urlEndPoint+'/regiones');
+
+
+    // return of(CLIENTES);                // Convierte el listado clientes en un observable y por consiguiente en un stream
+    return this.http.get<Cliente[]>(urlEndPoint+'/page/'+page).pipe( // Hace una peticion get a la url para retornar un json que transforma en una lista de clientes
+      map((response: any) =>{
+
+        (response.content as Cliente[]).map(cliente => {
+            cliente.clientName = cliente.clientName.toUpperCase();  // Ponemos todos los nombres de los clientes en mayuscula
+            cliente.lastName = cliente.lastName.toUpperCase();
+            cliente.createAt = formatDate(cliente.createAt, 'dd/MM/yyyy','en-US');
+            return cliente;
+          }
+        );
+        return response;
+      }));
+  }
+
 
   /**
    * Metodo para obtener todos los clientes
