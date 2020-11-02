@@ -15,7 +15,13 @@ providedIn: 'root'
 export class ClienteService {
 
 private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
-
+private isNotAuthorized(e): boolean{
+  if(e.status==401 || e.status==403){
+    this.router.navigate(['/login']);
+    return true;
+  }
+  return false;
+}
 
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -24,7 +30,12 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
    * Metodo para obtener todos las regiones
    */
   getRegiones(page: number): Observable<Region[]>{ // Observable hace que el metodo sea asincrono
-    return this.http.get<Region[]>(urlEndPoint+'/regiones');
+    return this.http.get<Region[]>(urlEndPoint+'/regiones').pipe(
+      catchError(e =>{
+        this.isNotAuthorized(e);
+        return throwError(e);
+      })
+    );
 
 
     // return of(CLIENTES);                // Convierte el listado clientes en un observable y por consiguiente en un stream
@@ -70,6 +81,9 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
   create(cliente: Cliente):Observable<any>{
     return this.http.post<any>(urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
+        if(this.isNotAuthorized(e)){ // Error de no autorizado o no permitido
+          return throwError(e);
+        }
         if(e.status==400){ // Error de formulario
           return throwError(e);
         }
@@ -88,6 +102,9 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
   getCliente(id): Observable<any>{
     return this.http.get<Cliente>(`${urlEndPoint}/${id}`).pipe(
       catchError(e => {
+        if(this.isNotAuthorized(e)){ // Error de no autorizado o no permitido
+          return throwError(e);
+        }
         this.router.navigate(['/clientes']);
         console.error(e.error.mensaje);
         swal.fire('Error al obtener cliente', e.error.mensaje, 'error');
@@ -105,6 +122,9 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
   update(cliente: Cliente): Observable<any>{
     return this.http.put<any>(`${urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
       catchError(e => {
+        if(this.isNotAuthorized(e)){ // Error de no autorizado o no permitido
+          return throwError(e);
+        }
         if(e.status==400){ // Error de formulario
           return throwError(e);
         }
@@ -123,7 +143,9 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
   delete(id: number): Observable<Cliente>{
     return this.http.delete<Cliente>(`${urlEndPoint}/${id}`,{headers: this.httpHeaders}).pipe(
       catchError(e => {
-        console.error(e.error.mensaje);
+        if(this.isNotAuthorized(e)){ // Error de no autorizado o no permitido
+          return throwError(e);
+        }
         swal.fire('Error al eliminar cliente', e.error.mensaje, 'error');
         return throwError(e);
       })
@@ -140,7 +162,12 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
     });
 
 
-    return this.http.request(req);
+    return this.http.request(req).pipe(
+      catchError(e =>{
+        this.isNotAuthorized(e);
+        return throwError(e);
+      })
+    );
 
   }
 }

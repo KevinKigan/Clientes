@@ -18,6 +18,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {ProfileComponent} from './components/pages/profile/profile.component';
+import { LoginComponent } from './components/users/login.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {ProfileComponent} from './components/pages/profile/profile.component';
     ClientesComponent,
     FormComponent,
     PaginatorComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
