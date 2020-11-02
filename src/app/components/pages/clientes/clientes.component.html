@@ -1,7 +1,7 @@
 <profile-client [cliente]="selectedClient"></profile-client>
 <div class="padding">
-  <div class="card border-primary mb-3 ">
-    <div class="card-header">Clientes</div>
+  <div class="card border-primary mb-3 text-light">
+    <div class="card-header bg-secondary">Clientes</div>
     <div class="card-body text-primary">
       <h5 class="card-title">Listado de Clientes</h5>
       <div class="my-2 text-left">
@@ -26,9 +26,9 @@
         <tr *ngFor="let cliente of clientes">
           <td>
             <div class="centerPhoto">
-            <img (click)="openModal(cliente)" *ngIf="cliente?.photo" src="http://localhost:8080/api/uploads/img/{{cliente.photo}}" alt="{{cliente.photo}}" class="img-thumbnail rounded"
+            <img (click)="openModal(cliente)" *ngIf="cliente?.photo" src="{{urlEndPointUploadImg}}/{{cliente.photo}}" alt="{{cliente.photo}}" class="img-thumbnail rounded"
                    style="cursor: pointer;">
-            <img (click)="openModal(cliente)" *ngIf="!cliente?.photo" src="http://localhost:8080/Images/noPhoto.png" alt="Sin Imagen" class="img-thumbnail rounded"
+            <img (click)="openModal(cliente)" *ngIf="!cliente?.photo" src="{{urlEndPointImg}}/noPhoto.png" alt="Sin Imagen" class="img-thumbnail rounded"
                  style="cursor: pointer;">
             </div>
           </td>

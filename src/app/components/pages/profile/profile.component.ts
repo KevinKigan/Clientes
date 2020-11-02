@@ -7,6 +7,7 @@ import { HttpEventType } from '@angular/common/http';
 import {ClienteService} from '../../services/cliente.service';
 import {ModalService} from '../../services/modal.service';
 import {Cliente} from '../clientes/cliente';
+import {urlEndPointUploadImg} from '../../../../environments/environment';
 
 @Component({
   selector: 'profile-client',
@@ -20,6 +21,7 @@ export class ProfileComponent implements OnInit {
   titulo: string = "Perfil del cliente";
   selectedImage: File;
   progress: number = 0;
+  urlEndPointUploadImg = urlEndPointUploadImg;
 
   constructor(private clienteService: ClienteService,
     public modalService: ModalService) { }
@@ -44,6 +46,7 @@ export class ProfileComponent implements OnInit {
     } else {
       this.clienteService.uploadPhoto(this.selectedImage, this.cliente.id)
         .subscribe(event => {
+          console.log(event.type);
           if (event.type === HttpEventType.UploadProgress) {
             this.progress = Math.round((event.loaded / event.total) * 100);
           } else if (event.type === HttpEventType.Response) {

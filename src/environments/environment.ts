@@ -7,7 +7,12 @@ export const environment = {
 };
 
 // url de los clientes en SpringBoot BackEnd
-export const urlEndPoint = "http://localhost:8080/api/clientes";
+const dns = "http://localhost:8080";
+export const urlEndPoint = dns+"/api/";
+export const urlEndPointClients = dns+"/api/clientes";
+export const urlEndPointUploadImg = dns+"/api/uploads/img";
+export const urlEndPointImg = dns+"/Images";
+
 
 // url de la autentificacion mediante oauth2 de spring security
 export const urlEndPointOAuth = "http://localhost:8080/oauth/token";

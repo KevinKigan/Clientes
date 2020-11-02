@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Cliente} from './cliente';
 import {ClienteService} from '../../services/cliente.service';
-import {logger} from 'codelyzer/util/logger';
+import {urlEndPointUploadImg, urlEndPointImg} from '../../../../environments/environment';
 import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/output_ast';
 import swal from 'sweetalert2';
 import {ActivatedRoute} from '@angular/router';
@@ -18,6 +18,8 @@ export class ClientesComponent implements OnInit {
   clientes: Cliente[];
   paginator: any;
   selectedClient: Cliente;
+  urlEndPointUploadImg = urlEndPointUploadImg;
+  urlEndPointImg = urlEndPointImg;
 
   constructor(private clienteService: ClienteService,private modalService: ModalService, private activatedRoute: ActivatedRoute) {
 

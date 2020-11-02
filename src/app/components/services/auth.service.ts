@@ -40,6 +40,15 @@ export class AuthService {
     sessionStorage.setItem('token',accessToken);
   }
 
+  isAuthenticated():boolean{
+    let payload = this.getTokenData(this.token);
+    if(payload!=null && payload.user_name && payload.user_name.length>0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   getTokenData(accessToken: string):any{
     if(accessToken!=null){
       return JSON.parse(atob(accessToken.split(".")[1]));
@@ -65,5 +74,11 @@ export class AuthService {
       return this._token;
     }
     return null;
+  }
+
+  logout():void {
+    this._user = null;
+    this._token = null;
+    sessionStorage.clear();
   }
 }
