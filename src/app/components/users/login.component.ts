@@ -21,17 +21,20 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void{
-    console.log(this.user);
     if(this.user.username == null || this.user.password ==null){
       swal.fire('Error al Iniciar Sesión', 'El Nombre de Usuario o Contraseña se encuentran vacío', 'error');
       return;
     }
     this.authService.login(this.user).subscribe(response =>{
-      console.log(response);
-      let payload = JSON.parse(atob(response.access_token.split(".")[1]));
-      console.log(payload.username);
+      this.authService.saveUser(response.access_token);
+      this.authService.saveToken(response.access_token);
+      let user = this.authService.user;
       this.router.navigate(['/clientes']);
-      swal.fire('Login',`Bienvenido ${payload.username}, has iniciado sesión con éxito`, 'success');
+      swal.fire('Login',`Bienvenido ${user.username}, has iniciado sesión con éxito`, 'success');
+    }, error => {
+      if(error.status == 400){
+        swal.fire('Error a iniciar sesión','Usuario o Contraseña incorrectos', 'error');
+      }
     });
   }
 }

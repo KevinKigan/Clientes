@@ -29,7 +29,6 @@ export class ProfileComponent implements OnInit {
   selectFoto(event) {
     this.selectedImage = event.target.files[0];
     this.progress = 0;
-    console.log(this.selectedImage);
     if (this.selectedImage.type.indexOf('image') < 0) {
       // @ts-ignore
       swal('Error seleccionar imagen: ', 'El archivo debe ser del tipo imagen', 'error');
