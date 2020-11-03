@@ -49,6 +49,14 @@ export class AuthService {
     }
   }
 
+  hasRole(role:string):boolean{
+    if(this.user.roles.includes(role)){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   getTokenData(accessToken: string):any{
     if(accessToken!=null){
       return JSON.parse(atob(accessToken.split(".")[1]));

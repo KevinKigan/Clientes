@@ -4,6 +4,8 @@ import {DirectivaComponent} from './components/pages/directiva/directiva.compone
 import {ClientesComponent} from './components/pages/clientes/clientes.component';
 import {FormComponent} from './components/pages/form/form.component';
 import {LoginComponent} from './components/users/login.component';
+import {AuthGuard} from './components/users/guards/auth.guard';
+import {RoleGuard} from './components/users/guards/role.guard';
 
 
 const app_routes: Routes = [
@@ -11,8 +13,8 @@ const app_routes: Routes = [
   {path: 'directivas', component: DirectivaComponent},
   {path: 'clientes', component: ClientesComponent},
   {path: 'clientes/page/:page', component: ClientesComponent},
-  {path: 'clientes/form', component: FormComponent},
-  {path: 'clientes/form/:id', component: FormComponent},
+  {path: 'clientes/form', component: FormComponent, canActivate:[AuthGuard, RoleGuard], data:{role:'ROLE_ADMIN'}},
+  {path: 'clientes/form/:id', component: FormComponent, canActivate:[AuthGuard, RoleGuard], data:{role:'ROLE_ADMIN'}},
   {path: 'login', component: LoginComponent}
 ];
 

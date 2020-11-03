@@ -6,6 +6,7 @@ import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/
 import swal from 'sweetalert2';
 import {ActivatedRoute} from '@angular/router';
 import {ModalService} from '../../services/modal.service';
+import {AuthService} from '../../services/auth.service';
 
 
 @Component({
@@ -21,7 +22,11 @@ export class ClientesComponent implements OnInit {
   urlEndPointUploadImg = urlEndPointUploadImg;
   urlEndPointImg = urlEndPointImg;
 
-  constructor(private clienteService: ClienteService,private modalService: ModalService, private activatedRoute: ActivatedRoute) {
+  constructor(
+    private clienteService: ClienteService,
+    private modalService: ModalService,
+    private activatedRoute: ActivatedRoute,
+    public  authService: AuthService) {
 
   }
 

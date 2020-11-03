@@ -7,7 +7,8 @@ import { HttpEventType } from '@angular/common/http';
 import {ClienteService} from '../../services/cliente.service';
 import {ModalService} from '../../services/modal.service';
 import {Cliente} from '../clientes/cliente';
-import {urlEndPointUploadImg} from '../../../../environments/environment';
+import {urlEndPointUploadImg, urlEndPointImg} from '../../../../environments/environment';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'profile-client',
@@ -22,9 +23,12 @@ export class ProfileComponent implements OnInit {
   selectedImage: File;
   progress: number = 0;
   urlEndPointUploadImg = urlEndPointUploadImg;
+  urlEndPointImg = urlEndPointImg;
 
-  constructor(private clienteService: ClienteService,
-    public modalService: ModalService) { }
+  constructor(
+    private clienteService: ClienteService,
+    public modalService: ModalService,
+    public authService: AuthService) { }
 
   ngOnInit() { }
 
