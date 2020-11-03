@@ -1,40 +1,64 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Cliente} from '../pages/clientes/cliente';
 import {Observable, throwError} from 'rxjs';
 import {HttpClient, HttpEvent, HttpHeaders, HttpRequest} from '@angular/common/http';
-import {urlEndPoint} from '../../../environments/environment';
+import {urlEndPointClients} from '../../../environments/environment';
 import {catchError, map} from 'rxjs/operators';
 import swal from 'sweetalert2';
 import {Router} from '@angular/router';
 
 import {formatDate} from '@angular/common';
 import {Region} from '../pages/clientes/region';
+import {AuthService} from './auth.service';
+
 @Injectable({
-providedIn: 'root'
+  providedIn: 'root'
 })
 export class ClienteService {
 
-private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
+  // private isNotAuthorized(e): boolean {
+  //   if (e.status == 401) {
+  //     if(this.authService.isAuthenticated()){
+  //       this.authService.logout();
+  //     }
+  //     this.router.navigate(['/login']);
+  //     return true;
+  //   }else if (e.status == 403) {
+  //     swal.fire('Acceso no autorizado', `${this.authService.user.username} no tienes acceso a este recurso`, 'warning');
+  //     this.router.navigate(['/clientes']);
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
 
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
-  constructor(private http: HttpClient, private router: Router) { }
+  // private addAuthorizationHeader() {
+  //   let token = this.authService.token;
+  //   if (token != null) {
+  //     return this.httpHeaders.append('Authorization', 'Bearer ' + token);
+  //   } else {
+  //     return this.httpHeaders;
+  //   }
+  //
+  // }
 
   /**
    * Metodo para obtener todos las regiones
    */
-  getRegiones(page: number): Observable<Region[]>{ // Observable hace que el metodo sea asincrono
-    return this.http.get<Region[]>(urlEndPoint+'/regiones');
-
+  getRegiones(page: number): Observable<Region[]> { // Observable hace que el metodo sea asincrono
+    return this.http.get<Region[]>(urlEndPointClients + '/regiones');
 
     // return of(CLIENTES);                // Convierte el listado clientes en un observable y por consiguiente en un stream
-    return this.http.get<Cliente[]>(urlEndPoint+'/page/'+page).pipe( // Hace una peticion get a la url para retornar un json que transforma en una lista de clientes
-      map((response: any) =>{
+    return this.http.get<Cliente[]>(urlEndPointClients + '/page/' + page).pipe( // Hace una peticion get a la url para retornar un json que transforma en una lista de clientes
+      map((response: any) => {
 
         (response.content as Cliente[]).map(cliente => {
             cliente.clientName = cliente.clientName.toUpperCase();  // Ponemos todos los nombres de los clientes en mayuscula
             cliente.lastName = cliente.lastName.toUpperCase();
-            cliente.createAt = formatDate(cliente.createAt, 'dd/MM/yyyy','en-US');
+            cliente.createAt = formatDate(cliente.createAt, 'dd/MM/yyyy', 'en-US');
             return cliente;
           }
         );
@@ -46,19 +70,19 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
   /**
    * Metodo para obtener todos los clientes
    */
-  getClientes(page: number): Observable<any>{ // Observable hace que el metodo sea asincrono
+  getClientes(page: number): Observable<any> { // Observable hace que el metodo sea asincrono
     // return of(CLIENTES);                // Convierte el listado clientes en un observable y por consiguiente en un stream
-    return this.http.get<Cliente[]>(urlEndPoint+'/page/'+page).pipe( // Hace una peticion get a la url para retornar un json que transforma en una lista de clientes
-      map((response: any) =>{
+    return this.http.get<Cliente[]>(urlEndPointClients + '/page/' + page).pipe( // Hace una peticion get a la url para retornar un json que transforma en una lista de clientes
+      map((response: any) => {
 
-         (response.content as Cliente[]).map(cliente => {
+        (response.content as Cliente[]).map(cliente => {
             cliente.clientName = cliente.clientName.toUpperCase();  // Ponemos todos los nombres de los clientes en mayuscula
             cliente.lastName = cliente.lastName.toUpperCase();
-            cliente.createAt = formatDate(cliente.createAt, 'dd/MM/yyyy','en-US');
+            cliente.createAt = formatDate(cliente.createAt, 'dd/MM/yyyy', 'en-US');
             return cliente;
           }
         );
-         return response;
+        return response;
       }));
   }
 
@@ -67,14 +91,15 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
    *
    * @param cliente Cliente a crear
    */
-  create(cliente: Cliente):Observable<any>{
-    return this.http.post<any>(urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
+  create(cliente: Cliente): Observable<any> {
+    return this.http.post<any>(urlEndPointClients, cliente).pipe(
       catchError(e => {
-        if(e.status==400){ // Error de formulario
+        if (e.status == 400) { // Error de formulario
           return throwError(e);
         }
-        console.error(e.error.mensaje);
-        swal.fire(e.error.mensaje, e.error.error, 'error');
+        if(e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
         return throwError(e);
       })
     );
@@ -85,12 +110,13 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
    *
    * @param id ID del cliente a obtener
    */
-  getCliente(id): Observable<any>{
-    return this.http.get<Cliente>(`${urlEndPoint}/${id}`).pipe(
+  getCliente(id): Observable<any> {
+    return this.http.get<Cliente>(`${urlEndPointClients}/${id}`).pipe(
       catchError(e => {
-        this.router.navigate(['/clientes']);
-        console.error(e.error.mensaje);
-        swal.fire('Error al obtener cliente', e.error.mensaje, 'error');
+        if(e.status != 401 && e.error.mensaje) {
+          this.router.navigate(['/clientes']);
+          console.error(e.error.mensaje);
+        }
         return throwError(e);
       })
     );
@@ -102,14 +128,15 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
    *
    * @param cliente Cliente a actualizar
    */
-  update(cliente: Cliente): Observable<any>{
-    return this.http.put<any>(`${urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
+  update(cliente: Cliente): Observable<any> {
+    return this.http.put<any>(`${urlEndPointClients}/${cliente.id}`, cliente).pipe(
       catchError(e => {
-        if(e.status==400){ // Error de formulario
+        if (e.status == 400) { // Error de formulario
           return throwError(e);
         }
-        console.error(e.error.mensaje);
-        swal.fire('Error al editar el cliente', e.error.mensaje, 'error');
+        if(e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
         return throwError(e);
       })
     );
@@ -120,11 +147,12 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
    *
    * @param id ID del cliente a borrar
    */
-  delete(id: number): Observable<Cliente>{
-    return this.http.delete<Cliente>(`${urlEndPoint}/${id}`,{headers: this.httpHeaders}).pipe(
+  delete(id: number): Observable<Cliente> {
+    return this.http.delete<Cliente>(`${urlEndPointClients}/${id}`).pipe(
       catchError(e => {
-        console.error(e.error.mensaje);
-        swal.fire('Error al eliminar cliente', e.error.mensaje, 'error');
+        if(e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
         return throwError(e);
       })
     );
@@ -132,15 +160,13 @@ private httpHeaders = new HttpHeaders({'Content-type':'application/json'});
 
   uploadPhoto(archivo: File, id): Observable<HttpEvent<{}>> {
     let formData = new FormData();
-    formData.append("file", archivo);
-    formData.append("id", id);
-    // const req = new HttpRequest('POST', `${this.urlEndPoint}/uploads`, formData, {
-      const req = new HttpRequest('POST', `${urlEndPoint}/upload`, formData, {
-      reportProgress: true
+    formData.append('file', archivo);
+    formData.append('id', id);
+    const req = new HttpRequest('POST', `${urlEndPointClients}/upload`, formData, {
+      reportProgress: true,
     });
-
-
     return this.http.request(req);
-
   }
+
+
 }

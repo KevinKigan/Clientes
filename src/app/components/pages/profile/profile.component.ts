@@ -7,6 +7,8 @@ import { HttpEventType } from '@angular/common/http';
 import {ClienteService} from '../../services/cliente.service';
 import {ModalService} from '../../services/modal.service';
 import {Cliente} from '../clientes/cliente';
+import {urlEndPointUploadImg, urlEndPointImg} from '../../../../environments/environment';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'profile-client',
@@ -20,16 +22,19 @@ export class ProfileComponent implements OnInit {
   titulo: string = "Perfil del cliente";
   selectedImage: File;
   progress: number = 0;
+  urlEndPointUploadImg = urlEndPointUploadImg;
+  urlEndPointImg = urlEndPointImg;
 
-  constructor(private clienteService: ClienteService,
-    public modalService: ModalService) { }
+  constructor(
+    private clienteService: ClienteService,
+    public modalService: ModalService,
+    public authService: AuthService) { }
 
   ngOnInit() { }
 
   selectFoto(event) {
     this.selectedImage = event.target.files[0];
     this.progress = 0;
-    console.log(this.selectedImage);
     if (this.selectedImage.type.indexOf('image') < 0) {
       // @ts-ignore
       swal('Error seleccionar imagen: ', 'El archivo debe ser del tipo imagen', 'error');
@@ -45,6 +50,7 @@ export class ProfileComponent implements OnInit {
     } else {
       this.clienteService.uploadPhoto(this.selectedImage, this.cliente.id)
         .subscribe(event => {
+          console.log(event.type);
           if (event.type === HttpEventType.UploadProgress) {
             this.progress = Math.round((event.loaded / event.total) * 100);
           } else if (event.type === HttpEventType.Response) {
