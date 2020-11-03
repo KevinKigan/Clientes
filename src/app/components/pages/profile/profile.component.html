@@ -2,54 +2,57 @@
   <div class="modal" tabindex="-1" role="dialog" style="display:block;">
     <div class="modal-dialog modal-lg bg-dark" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-dark text-light" style="height: 70px">
           <h2 class="modal-title">{{ titulo }}</h2>
           <button (click)="closeModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span class="btn btn-outline-danger" aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="container">
 
-            <div class="row align-content-center">
-              <div class="row">
-                <div class="col-sm">
-                  <ul *ngIf="cliente" class="list-group text-dark mb-3">
-                    <li class="list-group-item active">{{cliente.clientName}}</li>
-                    <li class="list-group-item">{{cliente.lastName}}</li>
-                    <li class="list-group-item">{{cliente.email}}</li>
-                    <li class="list-group-item">{{cliente.createAt | date:"fullDate"}}</li>
-                    <li class="list-group-item">{{cliente.region.region_name}}</li>
-                  </ul>
+            <div class="row">
+              <div class="container centerPhoto">
+                <div class="row align-items-center">
+                  <div class="col-sm-6" >
+                    <ul *ngIf="cliente" class="list-group text-dark mb-3 align-content-center" style="width: 350px">
+                      <li class="list-group-item active">{{cliente.clientName}}</li>
+                      <li class="list-group-item">{{cliente.lastName}}</li>
+                      <li class="list-group-item">{{cliente.email}}</li>
+                      <li class="list-group-item">{{cliente.createAt | date:"fullDate"}}</li>
+                      <li class="list-group-item">{{cliente.region.region_name}}</li>
+                    </ul>
 
-                  <div class="input-group mb-3">
-                    <div class="custom-file">
-                      <input (change)="selectFoto($event)" type="file" class="custom-file-input" id="inputGroupFile04"
-                             aria-describedby="inputGroupFileAddon04">
-                      <label *ngIf="!selectedImage" class="custom-file-label" for="inputGroupFile04">Seleccionar
-                        foto</label>
-                      <label *ngIf="selectedImage" class="custom-file-label"
-                             for="inputGroupFile04">{{selectedImage.name}}</label>
+                    <div *ngIf="authService.hasRole('ROLE_ADMIN')" class="input-group mb-3">
+                      <div class="custom-file">
+                        <input (change)="selectFoto($event)" type="file" class="custom-file-input" id="inputGroupFile04"
+                               aria-describedby="inputGroupFileAddon04">
+                        <label *ngIf="!selectedImage" class="custom-file-label" for="inputGroupFile04">Seleccionar
+                          foto</label>
+                        <label *ngIf="selectedImage" class="custom-file-label"
+                               for="inputGroupFile04">{{selectedImage.name}}</label>
+                      </div>
+                      <div class="input-group-append">
+                        <button (click)="uploadFoto()" [disabled]="!selectedImage" class="btn btn-outline-secondary"
+                                type="button" id="inputGroupFileAddon04">Subir
+                        </button>
+                      </div>
                     </div>
-                    <div class="input-group-append">
-                      <button (click)="uploadFoto()" [disabled]="!selectedImage" class="btn btn-outline-secondary"
-                              type="button" id="inputGroupFileAddon04">Subir
-                      </button>
+
+                    <div *ngIf="progress > 0" class="progress" style="height: 40px;">
+                      <div class="progress-bar progress-bar-striped" role="progressbar" [ngStyle]="{width:progress+'%'}"
+                           attr.aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">
+                        {{progress}}%
+                      </div>
                     </div>
+
                   </div>
 
-                  <div *ngIf="progress > 0" class="progress" style="height: 40px;">
-                    <div class="progress-bar progress-bar-striped" role="progressbar" [ngStyle]="{width:progress+'%'}"
-                         attr.aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">
-                      {{progress}}%
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-              <div class="centerPhoto">
-                <img *ngIf="cliente?.photo" src="http://localhost:8080/api/uploads/img/{{cliente.photo}}"
+                <img *ngIf="cliente?.photo" src="{{urlEndPointUploadImg}}/{{cliente.photo}}"
                      alt="{{cliente.photo}}" class="img-thumbnail rounded centerPhoto">
+                <img *ngIf="!cliente?.photo" src="{{urlEndPointImg}}/noPhoto.png"
+                     alt="Sin Imagen" class="img-thumbnail rounded centerPhoto">
+                </div>
               </div>
             </div>
           </div>

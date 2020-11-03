@@ -9,7 +9,7 @@ import {CommonModule} from '@angular/common';
 import { ClientesComponent } from './components/pages/clientes/clientes.component';
 import {ClienteService} from './components/services/cliente.service';
 import {AppRoutingModule} from './app-routing.module';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FormComponent } from './components/pages/form/form.component';
 import {FormsModule} from '@angular/forms';
 import { PaginatorComponent } from './components/pages/paginator/paginator.component';
@@ -18,6 +18,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {ProfileComponent} from './components/pages/profile/profile.component';
+import { LoginComponent } from './components/users/login.component';
+import {TokenInterceptor} from './components/users/interceptors/token.interceptor';
+import {AuthInterceptor} from './components/users/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import {ProfileComponent} from './components/pages/profile/profile.component';
     ClientesComponent,
     FormComponent,
     PaginatorComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +44,9 @@ import {ProfileComponent} from './components/pages/profile/profile.component';
     MatDatepickerModule,
     MatMomentDateModule
   ],
-  providers: [ClienteService, { provide: MAT_DATE_LOCALE, useValue: 'es' }],
+  providers: [ClienteService, { provide: MAT_DATE_LOCALE, useValue: 'es' },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor,  multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

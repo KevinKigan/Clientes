@@ -4,14 +4,14 @@
   </li>
 </ul>
 <div class="pad">
-  <div class="card bg-dark text-white">
+  <div class="card bg-secondary text-white">
     <div class="card-header bg-dark" *ngIf="!cliente.id else elseBlockTitle">Crear</div>
     <ng-template #elseBlockTitle>
       <div class="card-header">{{titleEdit}}</div>
     </ng-template>
 
 
-  <div class="card-body bg-secondary text-white">
+  <div class="card-body bg-dark text-white">
     <form #clienteForm="ngForm">
       <div class="form-group row">
         <label for="clientName" class="col-form-label col-sm-2">Nombre</label>
