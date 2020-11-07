@@ -1,0 +1,8 @@
+.especial {
+  min-height: 90%;
+  min-width: 100%;
+}
+html, body{
+  height:100%;
+  margin:0;
+}

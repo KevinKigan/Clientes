@@ -30,7 +30,8 @@ export class ProfileComponent implements OnInit {
     public modalService: ModalService,
     public authService: AuthService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   selectFoto(event) {
     this.selectedImage = event.target.files[0];

@@ -14,7 +14,7 @@
             <div class="row">
               <div class="container centerPhoto">
                 <div class="row align-items-center">
-                  <div class="col-sm-6" >
+                  <div class="col-sm-6">
                     <ul *ngIf="cliente" class="list-group text-dark mb-3 align-content-center" style="width: 350px">
                       <li class="list-group-item active">{{cliente.clientName}}</li>
                       <li class="list-group-item">{{cliente.lastName}}</li>
@@ -48,12 +48,35 @@
 
                   </div>
 
-                <img *ngIf="cliente?.photo" src="{{urlEndPointUploadImg}}/{{cliente.photo}}"
-                     alt="{{cliente.photo}}" class="img-thumbnail rounded centerPhoto">
-                <img *ngIf="!cliente?.photo" src="{{urlEndPointImg}}/noPhoto.png"
-                     alt="Sin Imagen" class="img-thumbnail rounded centerPhoto">
+                  <img *ngIf="cliente?.photo" src="{{urlEndPointUploadImg}}/{{cliente.photo}}"
+                       alt="{{cliente.photo}}" class="img-thumbnail rounded centerPhoto">
+                  <img *ngIf="!cliente?.photo" src="{{urlEndPointImg}}/noPhoto.png"
+                       alt="Sin Imagen" class="img-thumbnail rounded centerPhoto">
                 </div>
               </div>
+            </div>
+            <div *ngIf="cliente" class="row">
+              <div *ngIf="cliente.facturas.length==0" class="alert alert-info my-4">
+                No hay facturas asignadas para el cliente {{cliente.clientName}} {{cliente.lastName}}
+              </div>
+              <table *ngIf="cliente.facturas.length>0" class="table table-bordered table-striped my-4">
+                <thead>
+                <tr>
+                  <th>NºFactura</th>
+                  <th>Descripción</th>
+                  <th>Fecha</th>
+                  <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let factura of cliente.facturas">
+                  <td>{{factura.id}}</td>
+                  <td>{{factura.description}}</td>
+                  <td>{{factura.createAt}}</td>
+                  <td>{{factura.total}}</td>
+                </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
