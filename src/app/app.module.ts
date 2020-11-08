@@ -11,16 +11,22 @@ import {ClienteService} from './components/services/cliente.service';
 import {AppRoutingModule} from './app-routing.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FormComponent } from './components/pages/form/form.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { PaginatorComponent } from './components/pages/paginator/paginator.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import {ProfileComponent} from './components/pages/profile/profile.component';
+import {ProfileComponent} from './components/pages/clientes/profile/profile.component';
 import { LoginComponent } from './components/users/login.component';
 import {TokenInterceptor} from './components/users/interceptors/token.interceptor';
 import {AuthInterceptor} from './components/users/interceptors/auth.interceptor';
+import { FacturaDetailComponent } from './components/factura/factura-detail.component';
+import { FacturaComponent } from './components/factura/factura.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +38,9 @@ import {AuthInterceptor} from './components/users/interceptors/auth.interceptor'
     FormComponent,
     PaginatorComponent,
     ProfileComponent,
-    LoginComponent
+    LoginComponent,
+    FacturaDetailComponent,
+    FacturaComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +50,11 @@ import {AuthInterceptor} from './components/users/interceptors/auth.interceptor'
     FormsModule,
     BrowserAnimationsModule,
     MatDatepickerModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   providers: [ClienteService, { provide: MAT_DATE_LOCALE, useValue: 'es' },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

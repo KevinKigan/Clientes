@@ -6,6 +6,8 @@ import {FormComponent} from './components/pages/form/form.component';
 import {LoginComponent} from './components/users/login.component';
 import {AuthGuard} from './components/users/guards/auth.guard';
 import {RoleGuard} from './components/users/guards/role.guard';
+import {FacturaDetailComponent} from './components/factura/factura-detail.component';
+import {FacturaComponent} from './components/factura/factura.component';
 
 
 const app_routes: Routes = [
@@ -15,7 +17,9 @@ const app_routes: Routes = [
   {path: 'clientes/page/:page', component: ClientesComponent},
   {path: 'clientes/form', component: FormComponent, canActivate:[AuthGuard, RoleGuard], data:{role:'ROLE_ADMIN'}},
   {path: 'clientes/form/:id', component: FormComponent, canActivate:[AuthGuard, RoleGuard], data:{role:'ROLE_ADMIN'}},
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent},
+  {path: 'facturas/:id', component: FacturaDetailComponent},
+  {path: 'facturas/form/:clienteId', component: FacturaComponent},
 ];
 
 

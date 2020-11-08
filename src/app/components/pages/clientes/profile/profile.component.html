@@ -59,21 +59,35 @@
               <div *ngIf="cliente.facturas.length==0" class="alert alert-info my-4">
                 No hay facturas asignadas para el cliente {{cliente.clientName}} {{cliente.lastName}}
               </div>
-              <table *ngIf="cliente.facturas.length>0" class="table table-bordered table-striped my-4">
+              <table *ngIf="cliente.facturas.length>0" class="table table-bordered table-striped my-4 align-items-center">
                 <thead>
                 <tr>
-                  <th>NºFactura</th>
+                  <th>Nº Factura</th>
                   <th>Descripción</th>
                   <th>Fecha</th>
                   <th>Total</th>
+                  <th>Editar</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let factura of cliente.facturas">
-                  <td>{{factura.id}}</td>
+                  <td class="align-center">{{factura.id}}</td>
                   <td>{{factura.description}}</td>
                   <td>{{factura.createAt}}</td>
                   <td>{{factura.total}}</td>
+                  <td>
+                    <button type="button" name="buttonNewFactura" [routerLink]="['/facturas/form', cliente.id]"
+                            class="btn btn-success btn-sm m-1">Crear Factura
+                    </button>
+
+                    <button class="btn btn-primary btn-sm m-1" type="button" [routerLink]="['/facturas',factura.id]">
+                      Ver Detalle
+                    </button>
+
+                    <button class="btn btn-danger btn-sm m-1" type="button" (click)="delete(factura)">
+                      Eliminar
+                    </button>
+                  </td>
                 </tr>
                 </tbody>
               </table>
