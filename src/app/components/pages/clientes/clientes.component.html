@@ -38,13 +38,13 @@
           <td>{{cliente.email}}</td>
           <td>{{cliente.createAt}}</td>
           <td *ngIf="authService.hasRole('ROLE_ADMIN')">
-            <button type="button" name="buttonNewFactura" (click)="closeModal(cliente)" [routerLink]="['/facturas/form', cliente.id]" class="btn btn-success btn-sm">Crear Factura</button>
+            <button type="button" name="buttonNewFactura" [routerLink]="['/facturas/form', cliente.id]" class="btn btn-success btn-sm">Crear Factura</button>
           </td>
           <td *ngIf="authService.hasRole('ROLE_ADMIN')" >
-            <button type="button" name="buttonEdit" (click)="closeModal(cliente)" [routerLink]="['/clientes/form', cliente.id]" class="btn btn-primary btn-sm">Editar</button>
+            <button type="button" name="buttonEdit"  [routerLink]="['/clientes/form', cliente.id]" class="btn btn-primary btn-sm">Editar</button>
           </td>
           <td *ngIf="authService.hasRole('ROLE_ADMIN')" >
-            <button type="button" name="buttonDelete" (click)="delete(cliente)" class="btn btn-danger btn-sm">Eliminar</button>
+            <button type="button" name="buttonDelete"  class="btn btn-danger btn-sm">Eliminar</button>
           </td>
         </tr>
         </tbody>

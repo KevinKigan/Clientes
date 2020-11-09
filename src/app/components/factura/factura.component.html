@@ -3,7 +3,7 @@
     <div class="card-header list-group-item-secondary">{{title}}: {{factura.description}}</div>
     <div class="card-body">
       <h4 class="card-title">
-        <a [routerLink]="['/clientes']" class="btn btn-light btn-xs">&laquo;Volver</a>
+        <a (click)="goBack()" class="btn btn-light btn-xs">&laquo;Volver</a>
       </h4>
       <form #facturaForm="ngForm">
         <div *ngIf="factura.cliente" class="form-group row">
