@@ -26,6 +26,7 @@ import { FacturaComponent } from './components/factura/factura.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { HomeRedirectComponent } from './components/home-redirect/home-redirect.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     ProfileComponent,
     LoginComponent,
     FacturaDetailComponent,
-    FacturaComponent
+    FacturaComponent,
+    HomeRedirectComponent
   ],
   imports: [
     BrowserModule,

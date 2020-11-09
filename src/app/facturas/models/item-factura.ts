@@ -5,4 +5,7 @@ export class ItemFactura {
   quantity: number = 1;
   price: number;
 
+  calculateTotal():number{
+    return this.quantity * this.product.price;
+  }
 }

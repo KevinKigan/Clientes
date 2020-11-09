@@ -11,6 +11,7 @@ const dns = "http://localhost:8080";
 export const urlEndPoint = dns+"/api";
 export const urlEndPointClients = urlEndPoint+"/clientes";
 export const urlEndPointFacturas = urlEndPoint+"/facturas";
+export const urlEndPointFacturasFilteredProducts = urlEndPointFacturas+"/filtrar-productos";
 export const urlEndPointUploadImg = urlEndPoint+"/uploads/img";
 export const urlEndPointImg = dns+"/Images";
 // url de la autentificacion mediante oauth2 de spring security

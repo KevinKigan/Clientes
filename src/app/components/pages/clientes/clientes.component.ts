@@ -78,4 +78,8 @@ export class ClientesComponent implements OnInit {
     this.selectedClient = cliente;
     this.modalService.openModal();
   }
+  closeModal(cliente: Cliente) {
+    this.selectedClient = cliente;
+    this.modalService.closeModal();
+  }
 }

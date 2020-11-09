@@ -9,4 +9,12 @@ export class Factura {
   cliente: Cliente;
   total: number;
   createAt: string;
+
+  calculateTotal():number{
+    this.total = 0;
+    this.items.forEach((item:ItemFactura)=>{
+      this.total += item.calculateTotal();
+    });
+    return this.total;
+  }
 }

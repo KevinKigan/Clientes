@@ -4,7 +4,7 @@
     <div class="card-header bg-secondary">Clientes</div>
     <div class="card-body text-primary">
       <h5 class="card-title">Listado de Clientes</h5>
-      <div class="mt-2 text-left">
+      <div class="mt-2 mb-4 text-left">
         <button *ngIf="authService.hasRole('ROLE_ADMIN')" class="btn btn-rounded btn-primary" [routerLink]="['/clientes/form']">Crear Cliente</button>
       </div>
       <div *ngIf="clientes?.length==0" class="alert alert-info">
@@ -13,21 +13,19 @@
       <table class="table table-bordered table-striped" *ngIf="clientes?.length>0">
         <thead>
         <tr>
-<!--          *ngIf="authService.hasRole('ROLE_USER')"-->
-          <th>#</th>
+          <th *ngIf="authService.hasRole('ROLE_USER')">#</th>
           <th>Nombre</th>
           <th>Apellido</th>
           <th>Email</th>
           <th>Fecha</th>
-          <th>Crear Factura</th>
+          <th *ngIf="authService.hasRole('ROLE_ADMIN')">Crear Factura</th>
           <th *ngIf="authService.hasRole('ROLE_ADMIN')" >Editar</th>
           <th *ngIf="authService.hasRole('ROLE_ADMIN')" >Eliminar</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let cliente of clientes">
-<!--          *ngIf="authService.hasRole('ROLE_USER')"-->
-          <td>
+          <td *ngIf="authService.hasRole('ROLE_USER')">
             <div class="centerPhoto">
             <img (click)="openModal(cliente)" *ngIf="cliente?.photo" src="{{urlEndPointUploadImg}}/{{cliente.photo}}" alt="{{cliente.photo}}" class="img-thumbnail rounded"
                    style="cursor: pointer;">
@@ -39,14 +37,14 @@
           <td>{{cliente.lastName}}</td>
           <td>{{cliente.email}}</td>
           <td>{{cliente.createAt}}</td>
-          <td>
-            <button type="button" name="buttonNewFactura" [routerLink]="['/facturas/form', cliente.id]" class="btn btn-success">Crear Factura</button>
+          <td *ngIf="authService.hasRole('ROLE_ADMIN')">
+            <button type="button" name="buttonNewFactura" (click)="closeModal(cliente)" [routerLink]="['/facturas/form', cliente.id]" class="btn btn-success btn-sm">Crear Factura</button>
           </td>
           <td *ngIf="authService.hasRole('ROLE_ADMIN')" >
-            <button type="button" name="buttonEdit" [routerLink]="['/clientes/form', cliente.id]" class="btn btn-primary">Editar</button>
+            <button type="button" name="buttonEdit" (click)="closeModal(cliente)" [routerLink]="['/clientes/form', cliente.id]" class="btn btn-primary btn-sm">Editar</button>
           </td>
           <td *ngIf="authService.hasRole('ROLE_ADMIN')" >
-            <button type="button" name="buttonDelete" (click)="delete(cliente)" class="btn btn-danger">Eliminar</button>
+            <button type="button" name="buttonDelete" (click)="delete(cliente)" class="btn btn-danger btn-sm">Eliminar</button>
           </td>
         </tr>
         </tbody>

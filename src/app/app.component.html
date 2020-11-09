@@ -1,16 +1,17 @@
-<div>
+<div style="height: 100%">
   <app-header></app-header>
 </div>
-<div class="m3 especial" style="min-height: 100%; min-width: 100%; background-size: cover"
-     [style.background-image]="'url('+getBackgroundImage()+ ')'">
-<!--  <img src="{{urlEndPointImg}}/backgroundImage.png" class="img-fluid" alt="Responsive image" name="imagen"-->
-<!--       style="background-size: cover">-->
-  <div class="pb-5">
-    <div class="container">
-      <router-outlet></router-outlet>
+<div>
+<div><!--<div class="m3 especial divEspecial" [style.background-image]="'url('+getBackgroundImage()+ ')'">-->
+  <div>
+    <div class="pb-5">
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
+  <div>
+    <app-footer></app-footer>
+  </div>
 </div>
-<div>
-  <app-footer></app-footer>
 </div>
