@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Cliente} from './cliente';
 import {ClienteService} from '../../services/cliente.service';
 import {urlEndPointUploadImg, urlEndPointImg} from '../../../../environments/environment';
-import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/output_ast';
 import swal from 'sweetalert2';
 import {ActivatedRoute} from '@angular/router';
 import {ModalService} from '../../services/modal.service';
@@ -78,5 +77,9 @@ export class ClientesComponent implements OnInit {
   openModal(cliente: Cliente) {
     this.selectedClient = cliente;
     this.modalService.openModal();
+  }
+  closeModal(cliente: Cliente) {
+    this.selectedClient = cliente;
+    this.modalService.closeModal();
   }
 }

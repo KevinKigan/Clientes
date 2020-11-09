@@ -1,0 +1,82 @@
+<div class="padding">
+  <div class="card bg-light mb-5">
+    <div class="card-header list-group-item-secondary">{{title}}: {{factura.description}}</div>
+    <div class="card-body">
+      <h4 class="card-title">
+        <a (click)="goBack()" class="btn btn-light btn-xs">&laquo;Volver</a>
+      </h4>
+      <form #facturaForm="ngForm">
+        <div *ngIf="factura.cliente" class="form-group row">
+          <label for="cliente" class="col-sm-2 col-form-label">Cliente</label>
+          <div class="col-sm-6">
+            <input type="text" value="{{factura.cliente.clientName}} {{factura.cliente.lastName}}" class="form-control"
+                   disabled>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="description" class="col-sm-2 col-form-label">Descripción</label>
+          <div class="col-sm-6">
+            <input type="text" [(ngModel)]="factura.description" name="description" class="form-control" required #description="ngModel">
+            <div class="alert alert-danger" *ngIf="description.invalid && description.touched">
+              La descripcion es necesaria
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="observation" class="col-sm-2 col-form-label">Observaciones</label>
+          <div class="col-sm-6">
+            <textarea name="observation" [(ngModel)]="factura.observation" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="observation" class="col-sm-2 col-form-label">Observaciones</label>
+          <div class="col-sm-6">
+            <mat-form-field>
+              <input type="text"
+                     placeholder="Añadir Producto"
+                     aria-label="Productos"
+                     matInput
+                     [formControl]="autocompleteControl"
+                     [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="showName"
+                                (optionSelected)="selectionProduct($event)">
+                <mat-option *ngFor="let product of filteredProducts | async" [value]="product">
+                  {{product.productName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+        <div *ngIf="factura.items.length==0" class="alert alert-info my-4">
+          No hay productos en esta factura
+        </div>
+        <table *ngIf="factura.items.length>0" class="table table-striped table-hover table-sm align-items-center">
+          <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio (€)</th>
+            <th>Cantidad</th>
+            <th>Importe (€)</th>
+            <th>Eliminar</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of factura.items">
+            <td>{{item.product.productName}}</td>
+            <td>{{item.product.price}}</td>
+            <td><input type="number" value="{{item.quantity}}" class="form-control col-sm-4" (change)="updateQuantity(item.product.id, $event)"></td>
+            <td>{{item.calculateTotal()}}</td>
+            <td><button class="btn btn-danger btn-sm" type="button" (click)="deleteItemFactura(item.product.id)">x</button></td>
+          </tr>
+          </tbody>
+        </table>
+        <h2 class="float-right">Total: <span class="badge badge-secondary">{{factura.calculateTotal()}} €</span></h2>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <input (click)="createFactura()" type="submit" value="Crear Factura" class="btn btn-secondary" [disabled]="facturaForm.form.invalid || factura.items.length==0">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,12 +1,58 @@
-/* You can add global styles to this file, and also import other style files */
-html{
-  position: relative;
-  min-height: 100%;
-}
+/*!*html{*!*/
+/*!*  position: relative;*!*/
+/*!*  min-height: 100%;*!*/
+/*!*  height:100%;*!*/
+/*!*  width: 100%;*!*/
+/*!*}*!*/
 
-body{
-  margin-bottom: 60px;
-}
+/*!*body {*!*/
+/*!*  width: 100%;*!*/
+/*!*  margin-bottom: 60px;*!*/
+/*!*  min-height: 100%;*!*/
+/*!*  margin: 0;*!*/
+/*!*  font-family: 'Roboto', sans-serif;*!*/
+/*!*  height:100%;*!*/
+/*!*  display: flex;*!*/
+/*!*  flex-direction: column;*!*/
+/*!*}*!*/
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/*!*.wrap{*!*/
+/*!*  padding-bottom: 60px;*!*/
+/*!*}*!*/
+/*#padre{*/
+/*  background:#CBD1DC;*/
+/*  margin:0 auto;*/
+/*  margin-top:10px;*/
+/*  position:relative;*/
+/*  width:600px;*/
+/*}*/
+/*#contenido{*/
+/*  background:#E7EBF1;*/
+/*  color:#42474F;*/
+/*  float:right;*/
+/*  padding:25px;*/
+/*  text-align:justify;*/
+/*  width:350px;*/
+/*}*/
+/*#sidebar{*/
+/*  background:#FE5B2C;*/
+/*  bottom:0px;*/
+/*  color:#6f42c1;*/
+/*  font-size:35px;*/
+/*  font-weight:bold;*/
+/*  padding:25px;*/
+/*  position:absolute;*/
+/*  text-align:center;*/
+/*  text-shadow:-1px -1px #A62C02;*/
+/*  top:0px;*/
+/*  width:150px;*/
+/*}*/
+/*div{*/
+/*  height:100%;*/
+/*  margin:0;*/
+/*  min-height: 100%;*/
+/*  background-size: cover;*/
+/*  border-radius: 2px;*/
+/*  border-color: yellow;*/
+/*  border-style:solid*/
+/*}*/

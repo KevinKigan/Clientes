@@ -1,0 +1,53 @@
+<div class="padding" >
+  <div *ngIf="factura" class="card bg-light my-4" >
+    <div class="card-header list-group-item-secondary">{{title}}: {{factura.description}}</div>
+    <div class="card-body">
+      <h4 class="card-title">
+        <a [routerLink]="['/clientes']" class="btn btn-light btn-xs">&laquo;Volver</a>
+      </h4>
+
+      <ul class="list-group my-2">
+        <li class="list-group-item list-group-item-primary">Datos del cliente</li>
+        <li class="list-group-item">{{factura.cliente.clientName}}</li>
+        <li class="list-group-item">{{factura.cliente.lastName}}</li>
+      </ul>
+
+      <ul class="list-group my-2">
+        <li class="list-group-item list-group-item-primary">Datos de la factura</li>
+        <li class="list-group-item">Folio: {{factura.id}}</li>
+        <li class="list-group-item">Descripción: {{factura.description}}</li>
+        <li class="list-group-item">Fecha: {{factura.createAt}}</li>
+      </ul>
+      <table class="table table-striped table-hover table-bordered my-3">
+        <thead>
+        <th>Producto</th>
+        <th>Precio (€)</th>
+        <th>Cantidad</th>
+        <th>Importe (€)</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of factura.items">
+          <td>{{item.product.productName}}</td>
+          <td>{{item.product.price}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.price}}</td>
+
+        </tr>
+        </tbody>
+      </table>
+      <h2 class="float-right">
+        <span>Total</span>: <span class="badge badge-secondary">{{factura.total}} €</span>
+      </h2>
+      <div class="card border-info mb-4" style="max-width: 500px">
+        <div class="card card-header">
+          Observaciones
+        </div>
+        <div class="card card-body">
+          <p *ngIf="!factura.observation">No tiene observaciones</p>
+          <p *ngIf="factura.observation">{{factura.observation}}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
