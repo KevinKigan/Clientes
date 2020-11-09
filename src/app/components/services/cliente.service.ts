@@ -74,7 +74,6 @@ export class ClienteService {
     // return of(CLIENTES);                // Convierte el listado clientes en un observable y por consiguiente en un stream
     return this.http.get<Cliente[]>(urlEndPointClients + '/page/' + page).pipe( // Hace una peticion get a la url para retornar un json que transforma en una lista de clientes
       map((response: any) => {
-
         (response.content as Cliente[]).map(cliente => {
             cliente.clientName = cliente.clientName.toUpperCase();  // Ponemos todos los nombres de los clientes en mayuscula
             cliente.lastName = cliente.lastName.toUpperCase();
@@ -97,7 +96,7 @@ export class ClienteService {
         if (e.status == 400) { // Error de formulario
           return throwError(e);
         }
-        if(e.error.mensaje) {
+        if (e.error.mensaje) {
           console.error(e.error.mensaje);
         }
         return throwError(e);
@@ -113,7 +112,7 @@ export class ClienteService {
   getCliente(id): Observable<any> {
     return this.http.get<Cliente>(`${urlEndPointClients}/${id}`).pipe(
       catchError(e => {
-        if(e.status != 401 && e.error.mensaje) {
+        if (e.status != 401 && e.error.mensaje) {
           this.router.navigate(['/clientes']);
           console.error(e.error.mensaje);
         }
@@ -134,7 +133,7 @@ export class ClienteService {
         if (e.status == 400) { // Error de formulario
           return throwError(e);
         }
-        if(e.error.mensaje) {
+        if (e.error.mensaje) {
           console.error(e.error.mensaje);
         }
         return throwError(e);
@@ -150,7 +149,7 @@ export class ClienteService {
   delete(id: number): Observable<Cliente> {
     return this.http.delete<Cliente>(`${urlEndPointClients}/${id}`).pipe(
       catchError(e => {
-        if(e.error.mensaje) {
+        if (e.error.mensaje) {
           console.error(e.error.mensaje);
         }
         return throwError(e);
